@@ -30,4 +30,12 @@ public class Board extends Timestamped{
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
     }
+
+    public void update(BoardRequestDto requestDto, Long id, User user) {
+        this.username = user.getUsername();
+        this.title = requestDto.getTitle();
+        this.id = id;
+        this.content = requestDto.getContent();
+    }
+
 }

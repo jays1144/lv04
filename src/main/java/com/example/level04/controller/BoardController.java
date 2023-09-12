@@ -35,4 +35,19 @@ public class BoardController {
         BoardResponseDto responseDto = boardService.create(requestDto,userDetails.getUser());
         return ResponseEntity.ok(responseDto);
     }
+
+    @GetMapping("/board/{id}")
+    public Board getBoardBykey(@PathVariable Long id){
+        return boardService.getBoardByKey(id);
+    }
+
+    @PutMapping("/board/{id}")
+    public Board update(@RequestBody BoardRequestDto requestDto, @PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+       return boardService.update(requestDto,id, userDetails.getUser());
+    }
+
+    @DeleteMapping("/board/{id}")
+    public String delete(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return boardService.delete(id,userDetails.getUser());
+    }
 }
