@@ -1,7 +1,8 @@
-package com.example.level04.jwt;
+package com.example.level04.security;
 
 import com.example.level04.dto.LoginRequestDto;
 import com.example.level04.entity.UserRoleEnum;
+import com.example.level04.jwt.JwtUtil;
 import com.example.level04.security.UserDetailsImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -49,17 +50,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth)throws IOException, SecurityException{
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth){
         log.info("로그인, jwt 성공");
         String username = ((UserDetailsImpl) auth.getPrincipal()).getUsername();
         UserRoleEnum role = ((UserDetailsImpl)auth.getPrincipal()).getUser().getRole();
 
         String token = jwtUtil.createToken(username,role);
-        jwtUtil.addJwtToCookie(token,response);
+        log.info(token);
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER,token);
+//        jwtUtil.addJwtToCookie(token,response);
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException fail) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException fail)  {
         log.info("로그인 실패..");
         fail.getCause();
         response.setStatus(401);

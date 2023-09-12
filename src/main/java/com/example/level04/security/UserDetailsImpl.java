@@ -2,6 +2,7 @@ package com.example.level04.security;
 
 import com.example.level04.entity.User;
 import com.example.level04.entity.UserRoleEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,10 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Slf4j(topic = "userdetailsImpl")
 public class UserDetailsImpl implements UserDetails {
     private final User user;
 
     public UserDetailsImpl(User user){
+        log.info(user.getUsername());
         this.user = user;
     }
 
@@ -50,7 +53,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked(){
-        return false;
+        return true;
     }
 
     @Override

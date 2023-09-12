@@ -24,12 +24,11 @@ public class UserService {
         this.jwtUtil = jwtUtil;
     }
 
-//    private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
+    private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
     public User signup(SignupRequestDto requestDto){
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
-//        String password = requestDto.getPassword();
 
         Optional<User> isValueUsername = userRepository.findByUsername(username);
         if(isValueUsername.isPresent()){
@@ -38,7 +37,9 @@ public class UserService {
 
         UserRoleEnum role = UserRoleEnum.USER;
         if(requestDto.isAdmin()){
-            role = UserRoleEnum.ADMIN;
+            if(requestDto.getAdminToken().equals(ADMIN_TOKEN)){
+                role = UserRoleEnum.ADMIN;
+            }
         }
 
         User user = new User(username,password,role);

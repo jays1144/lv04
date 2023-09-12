@@ -1,5 +1,6 @@
-package com.example.level04.jwt;
+package com.example.level04.security;
 
+import com.example.level04.jwt.JwtUtil;
 import com.example.level04.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;

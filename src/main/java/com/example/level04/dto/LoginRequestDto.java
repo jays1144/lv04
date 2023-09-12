@@ -3,7 +3,7 @@ package com.example.level04.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
+//@Setter
 @Getter
 public class LoginRequestDto {
     private String username;

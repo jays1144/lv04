@@ -61,19 +61,19 @@ public class JwtUtil {
                 .compact();
     }
 
-    public void addJwtToCookie(String token, HttpServletResponse response){
-        log.info("토큰 쿠키에 추가");
-        try {
-            token = URLEncoder.encode(token,"utf-8").replaceAll("\\+","%20");
-
-            Cookie cookie = new Cookie(AUTHORIZATION_HEADER,token);
-            cookie.setPath("/");
-
-            response.addCookie(cookie);
-        }catch (UnsupportedEncodingException e){
-            logger.error(e.getMessage());
-        }
-    }
+//    public void addJwtToCookie(String token, HttpServletResponse response){
+//        log.info("토큰 쿠키에 추가");
+//        try {
+//            token = URLEncoder.encode(token,"utf-8").replaceAll("\\+","%20");
+//
+//            Cookie cookie = new Cookie(AUTHORIZATION_HEADER,token);
+//            cookie.setPath("/");
+//
+//            response.addCookie(cookie);
+//        }catch (UnsupportedEncodingException e){
+//            logger.error(e.getMessage());
+//        }
+//    }
 
     public String substringToken(String tokenValue){
         log.info("토큰 자르기");
