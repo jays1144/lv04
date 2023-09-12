@@ -28,7 +28,7 @@ public class BoardController {
         return boardService.getBoards();
     }
 
-    @PostMapping("/boards")
+    @PostMapping("/board")
     public ResponseEntity<BoardResponseDto> create(@RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         log.info(requestDto.getTitle());
         log.info(userDetails.getUsername());

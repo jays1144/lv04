@@ -61,32 +61,29 @@ public class JwtUtil {
                 .compact();
     }
 
-//    public void addJwtToCookie(String token, HttpServletResponse response){
-//        log.info("토큰 쿠키에 추가");
-//        try {
-//            token = URLEncoder.encode(token,"utf-8").replaceAll("\\+","%20");
-//
-//            Cookie cookie = new Cookie(AUTHORIZATION_HEADER,token);
-//            cookie.setPath("/");
-//
-//            response.addCookie(cookie);
-//        }catch (UnsupportedEncodingException e){
-//            logger.error(e.getMessage());
-//        }
-//    }
 
-    public String substringToken(String tokenValue){
-        log.info("토큰 자르기");
-        if(StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)){
-            return tokenValue.substring(7);
+    // header에서 jwt 가져오기
+    public String getJwtFromHeader(HttpServletRequest request){
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)){
+            return bearerToken.substring(7);
         }
-        logger.error("토큰 발견 안됨");
-        throw new NullPointerException("토큰 없다구요");
+        return null;
     }
 
+//    public String substringToken(String tokenValue){
+//        log.info("토큰 자르기");
+//        if(StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)){
+//            return tokenValue.substring(7);
+//        }
+//        logger.error("토큰 발견 안됨");
+//        throw new NullPointerException("토큰 없다구요");
+//    }
+
     public boolean validateToken(String token){
-        log.info("토큰 상태 검사");
+        log.info("토큰 상태 검사 " + token);
         try {
+            log.info("validateToken try 시작");
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         }catch (SecurityException | MalformedJwtException | SignatureException e){
