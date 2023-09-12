@@ -14,7 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.sql.rowset.serial.SerialException;
+
 import java.io.IOException;
 
 @Slf4j(topic = "로그인 및 JWT 생성 부분")
@@ -22,7 +22,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private final JwtUtil jwtUtil;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil ) {
         this.jwtUtil = jwtUtil;
         setFilterProcessesUrl("/api/user/login");
     }
@@ -33,6 +33,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try{
             LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
 
+            System.out.println("requestDto.getUsername() = " + requestDto.getUsername());
+            System.out.println("requestDto.getPassword() = " + requestDto.getPassword());
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             requestDto.getUsername(),
@@ -59,6 +61,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException fail) throws IOException, ServletException {
         log.info("로그인 실패..");
+        fail.getCause();
         response.setStatus(401);
     }
 }

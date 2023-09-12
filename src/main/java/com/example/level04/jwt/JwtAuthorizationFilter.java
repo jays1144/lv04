@@ -31,6 +31,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException{
         String tokenValue = jwtUtil.getTokenFromRequest(request);
+        log.info("tokenValue : " + tokenValue);
 
         if(StringUtils.hasText(tokenValue)){
             tokenValue = jwtUtil.substringToken(tokenValue);
@@ -56,6 +57,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     // 인증 처리
     public void setAuthentication(String username){
+        log.info("setAuthentication시작 : " + username);
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         Authentication authentication = createAuthentication(username);
         context.setAuthentication(authentication);
@@ -64,6 +66,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private Authentication createAuthentication(String username) {
+        log.info("createAuthentication : " + username);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         return new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
     }

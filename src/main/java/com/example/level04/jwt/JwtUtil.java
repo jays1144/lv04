@@ -19,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.Key;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 
@@ -108,6 +109,7 @@ public class JwtUtil {
     public String getTokenFromRequest(HttpServletRequest request){
         log.info("요청에서 토큰가져오기");
         Cookie[] cookies = request.getCookies();
+        System.out.println("cookies = " + Arrays.toString(cookies));
         if(cookies != null){
             for (Cookie cookie : cookies){
                 if(cookie.getName().equals(AUTHORIZATION_HEADER)){
